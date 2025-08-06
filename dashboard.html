@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - NOW-STARK-PLAY-WITH-CHAMP</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <header>
+      <h1>Welcome, <span id="username">Player</span> 👑</h1>
+      <button class="logout-btn">Logout</button>
+    </header>
+
+    <section class="stark-points">
+      <h2>STARK POINTS: <span id="starkPoints">0</span></h2>
+      <div class="actions">
+        <button class="deposit-btn" disabled>Deposit (Coming Soon)</button>
+        <button class="withdraw-btn">Withdraw</button>
+      </div>
+    </section>
+
+    <section class="tournaments">
+      <h2>Available Tournaments</h2>
+      <div class="tournament-card">
+        <h3>BGMI Solo TDM</h3>
+        <p>Match ID: #TDM783</p>
+        <p>Entry Fee: 10 Stark Points</p>
+        <p>Winning: 50 Stark Points</p>
+        <button class="join-btn">Join Now</button>
+      </div>
+      <!-- More tournament cards can be added here -->
+    </section>
+  </div>
+</body>
+</html>

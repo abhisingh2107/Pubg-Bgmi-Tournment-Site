@@ -1,0 +1,100 @@
+body {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+  color: #fff;
+}
+
+.dashboard-container {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #111;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.1);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+header h1 {
+  color: #ffd700;
+  text-shadow: 0 0 5px #ffd700;
+}
+
+.logout-btn {
+  background-color: #ff4444;
+  border: none;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.stark-points {
+  background: #222;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  margin-bottom: 30px;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.stark-points h2 {
+  font-size: 24px;
+  color: #ffd700;
+  margin-bottom: 15px;
+}
+
+.actions button {
+  margin: 10px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.deposit-btn {
+  background-color: #888;
+  color: #000;
+  cursor: not-allowed;
+}
+
+.withdraw-btn {
+  background-color: #ffd700;
+  color: #000;
+}
+
+.tournaments {
+  margin-top: 30px;
+}
+
+.tournament-card {
+  background: #1d1d1d;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.tournament-card h3 {
+  color: #ffd700;
+  margin-bottom: 10px;
+}
+
+.join-btn {
+  margin-top: 10px;
+  background-color: #00ff99;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
