@@ -27,15 +27,13 @@
 
     <p class="login-link">Already registered? <a href="login.html">Login here</a></p>
   </div>
-
-  <!-- Firebase Config and Logic -->
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
-      authDomain: "stark-play-with-champ.firebaseapp.com",
-      projectId: "stark-play-with-champ",
-      storageBucket: "stark-play-with-champ.appspot.com",
-      messagingSenderId: "375886659320",
+      apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4"
+      authDomain: "stark-play-with-champ.firebaseapp.com"
+      projectId: "stark-play-with-champ"
+      storageBucket: "stark-play-with-champ.appspot.com"
+      messagingSenderId: "375886659320"
       appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
     };
 
@@ -63,10 +61,10 @@
       }
 
       // Register user
-      auth.createUserWithEmailAndPassword(email, password)
+      auth.createUserWithEmailAndPassword(email,mobile, password)
         .then((userCredential) => {
           alert("✅ Registration successful!");
-          window.location.href = "login.html";
+          <a href = "login.html";
         })
         .catch((error) => {
           console.error("Registration error:", error);
