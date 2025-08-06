@@ -32,6 +32,36 @@
       <button type="submit">Login</button>
     </form>
     <p class="login-link">Don't have an account? <a href="register.html">Register Now</a></p>
+    script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+
+  <script>
+     apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
+    authDomain: "https://stark-play-with-champ.firebaseapp.com",
+    projectId: "stark-play-with-champ",
+    storageBucket: "https://stark-play-with-champ.firebasestorage.app",
+    messagingSenderId: "375886659320",
+    appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
+  };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Login Logic
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("Login successful!");
+          window.location.href = "dashboard.html";
+        })
+        .catch(error => {
+          alert("Error: " + error.message);
+        });
+    });
+  </script>
   </div>
 </body>
 </html>

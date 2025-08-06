@@ -36,6 +36,36 @@
       <input type="password" placeholder="Confirm Password" required />
       <button type="submit">Register</button>
     </form>
+    script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
+      authDomain: "https://stark-play-with-champ.firebaseapp.com",
+      projectId: "stark-play-with-champ",
+      storageBucket: "https://stark-play-with-champ.firebasestorage.app",
+      messagingSenderId: "3758866559320",
+      appId: "0bac0b424a7c9ef24ac50d"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Register Logic
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("Registered successfully!");
+          window.location.href = "login.html"; // go to login page
+        })
+        .catch(error => {
+          alert("Error: " + error.message);
+        });
+    });
 
     <p class="login-link">Already registered? <a href="login.html">Login here</a></p>
   </div>
