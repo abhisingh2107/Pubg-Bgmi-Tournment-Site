@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - STARK PLAY</title>
+  <link rel="stylesheet" href="admin.css" />
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
+    authDomain: "https://stark-play-with-champ.firebaseapp.com",
+    projectId: "stark-play-with-champ",
+    storageBucket: "https://stark-play-with-champ.firebasestorage.app",
+    messagingSenderId: "375886659320",
+    appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+</script>
+</head>
+<body>
+  <div class="admin-container">
+    <h1>STARK ADMIN PANEL</h1>
+
+    <div class="section">
+      <h2>Registered Players</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>BGMI ID</th>
+            <th>STARK Points</th>
+          </tr>
+        </thead>
+        <tbody id="playersList">
+          <!-- Will be dynamically filled later -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Assign Match</h2>
+      <form id="assignMatchForm">
+        <input type="text" placeholder="Match ID" required />
+        <input type="datetime-local" required />
+        <input type="number" placeholder="Prize Pool" required />
+        <button type="submit">Assign</button>
+      </form>
+    </div>
+
+    <div class="section">
+      <h2>STARK POINTS Update</h2>
+      <form id="updatePointsForm">
+        <input type="text" placeholder="Player BGMI ID" required />
+        <input type="number" placeholder="New Stark Points" required />
+        <button type="submit">Update</button>
+      </form>
+    </div>
+
+    <div class="section">
+      <h2>Withdrawal / Deposit Requests</h2>
+      <p>Coming soon (Firebase Integration)</p>
+    </div>
+  </div>
+</body>
+</html>
