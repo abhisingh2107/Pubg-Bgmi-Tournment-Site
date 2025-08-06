@@ -13,7 +13,7 @@
 </head>
 <body>
   <div class="register-container">
-    <h1>PLAY-WITH-CHAMP</h1>
+    <h1>STARK-PLAY-WITH-CHAMP</h1>
 
     <form id="registerForm" class="register-form">
       <input type="text" id="name" placeholder="Full Name (Aadhar Name)" required />
@@ -40,26 +40,37 @@
     };
 
     firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
 
     document.getElementById('registerForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const email = document.getElementById('email').value;
+      const name = document.getElementById('name').value.trim();
+      const mobile = document.getElementById('mobile').value.trim();
+      const bgmiId = document.getElementById('bgmiId').value.trim();
+      const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
 
       if (password !== confirmPassword) {
-        alert("Passwords do not match.");
+        alert("❌ Passwords do not match.");
         return;
       }
 
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          alert("Registered successfully!");
+      if (!email || !password) {
+        alert("❌ Email and Password are required.");
+        return;
+      }
+
+      // Register user
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          alert("✅ Registration successful!");
           window.location.href = "login.html";
         })
         .catch((error) => {
-          alert("Error: " + error.message);
+          console.error("Registration error:", error);
+          alert("❌ Error: " + error.message);
         });
     });
   </script>
