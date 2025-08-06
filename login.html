@@ -6,10 +6,6 @@
   <title>Login - NOW-STARK-PLAY-WITH-CHAMP</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-
-  <!-- Firebase Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
 </head>
 <body>
   <div class="register-container">
@@ -24,35 +20,37 @@
     <p class="login-link">Don't have an account? <a href="index.html">Register Now</a></p>
   </div>
 
-  <script>
-    // Firebase config
+  <!-- Firebase Login Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
     const firebaseConfig = {
-      apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4"
-      authDomain: "stark-play-with-champ.firebaseapp.com"
-      projectId: "stark-play-with-champ"
-      storageBucket: "stark-play-with-champ.appspot.com"
-      messagingSenderId: "375886659320"
+      apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
+      authDomain: "stark-play-with-champ.firebaseapp.com",
+      projectId: "stark-play-with-champ",
+      storageBucket: "stark-play-with-champ.appspot.com",
+      messagingSenderId: "375886659320",
       appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
     };
-    firebase.initializeApp(firebaseConfig);
 
-    // Login logic
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
 
-      firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          // Login success
-          alert("Login successful!");
-          <a href = "dashboard.html";
-        })
-        .catch((error) => {
-          // Login error
-          alert("Login failed: " + error.message);
-        });
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("✅ Login successful!");
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        alert("❌ Login failed: " + error.message);
+        console.error(error);
+      }
     });
   </script>
 </body>

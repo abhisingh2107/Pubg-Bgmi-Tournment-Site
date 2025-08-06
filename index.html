@@ -6,14 +6,10 @@
   <title>Register - NOW-STARK-PLAY-WITH-CHAMP</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-
-  <!-- Firebase Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
 </head>
 <body>
   <div class="register-container">
-    <h1>STARK-PLAY-WITH-CHAMP</h1>
+    <h1>PLAY-WITH-CHAMP</h1>
 
     <form id="registerForm" class="register-form">
       <input type="text" id="name" placeholder="Full Name (Aadhar Name)" required />
@@ -27,20 +23,25 @@
 
     <p class="login-link">Already registered? <a href="login.html">Login here</a></p>
   </div>
-  <script>
+
+  <!-- Firebase Registration Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
     const firebaseConfig = {
-      apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4"
-      authDomain: "stark-play-with-champ.firebaseapp.com"
-      projectId: "stark-play-with-champ"
-      storageBucket: "stark-play-with-champ.appspot.com"
-      messagingSenderId: "375886659320"
+      apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
+      authDomain: "stark-play-with-champ.firebaseapp.com",
+      projectId: "stark-play-with-champ",
+      storageBucket: "stark-play-with-champ.appspot.com",
+      messagingSenderId: "375886659320",
       appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-    document.getElementById('registerForm').addEventListener('submit', function (e) {
+    document.getElementById('registerForm').addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const name = document.getElementById('name').value.trim();
@@ -55,21 +56,14 @@
         return;
       }
 
-      if (!email || !password) {
-        alert("❌ Email and Password are required.");
-        return;
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("✅ Registration successful!");
+        window.location.href = "login.html";
+      } catch (error) {
+        alert("❌ Error: " + error.message);
+        console.error(error);
       }
-
-      // Register user
-      auth.createUserWithEmailAndPassword(email,mobile, password)
-        .then((userCredential) => {
-          alert("✅ Registration successful!");
-          <a href = "login.html";
-        })
-        .catch((error) => {
-          console.error("Registration error:", error);
-          alert("❌ Error: " + error.message);
-        });
     });
   </script>
 </body>
