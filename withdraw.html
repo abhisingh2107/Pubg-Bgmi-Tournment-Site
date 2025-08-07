@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Withdraw - StarkPlay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #facc15;
+    }
+    .withdraw-container {
+      max-width: 400px;
+      margin: auto;
+      background-color: #111;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      box-shadow: 0 0 10px #5c27fe;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-size: 16px;
+    }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 5px;
+      border: 1px solid #444;
+      background-color: #222;
+      color: white;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #5c27fe;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4722cc;
+    }
+    .withdraw-info {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #00ffcc;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Withdraw Funds</h1>
+  <div class="withdraw-container">
+
+    <label>Your UPI ID:</label>
+    <input type="text" id="upiInput" placeholder="Enter your UPI ID (e.g., user@upi)">
+
+    <label>Amount:</label>
+    <input type="number" id="amountInput" placeholder="Enter amount in ₹">
+
+    <div class="withdraw-info" id="withdrawDisplay"></div>
+
+    <button onclick="submitWithdraw()">Withdraw Now</button>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+  <script>
+    // ✅ Replace with your actual Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
+      authDomain: "stark-play-with-champ.firebaseapp.com",
+      projectId: "stark-play-with-champ",
+      storageBucket: "stark-play-with-champ.appspot.com",
+      messagingSenderId: "375886659320",
+      appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function submitWithdraw() {
+      const upi = document.getElementById('upiInput').value.trim();
+      const amount = document.getElementById('amountInput').value.trim();
+
+      if (!upi) {
+        alert("Please enter your UPI ID.");
+        return;
+      }
+      if (!amount || isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+      }
+
+      db.collection("withdraw_requests").add({
+        upi: upi,
+        amount: parseFloat(amount),
+        timestamp: new Date()
+      })
+      .then(() => {
+        document.getElementById('withdrawDisplay').innerText = Withdrawn Amount: ₹${amount};
+        alert("Withdraw request sent!");
+
+        // Optional: Open UPI payment link
+        const upiLink = upi://pay?pa=${upi}&am=${amount}&cu=INR;
+        window.location.href = upiLink;
+      })
+      .catch(error => {
+        console.error("Error sending request:", error);
+        alert("Error! Try again.");
+      });
+    }
+  </script>
+
+</body>
+</html>

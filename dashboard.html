@@ -1,52 +1,111 @@
-<!DOCTYPE html>
+
+      <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard - NOW-STARK-PLAY-WITH-CHAMP</title>
-  <link rel="stylesheet" href="dashboard.css">
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+  <meta charset="UTF-8" />
+  <title>StarkPlay Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
-    authDomain: "https://stark-play-with-champ.firebaseapp.com",
-    projectId: "stark-play-with-champ",
-    storageBucket: "https://stark-play-with-champ.firebasestorage.app",
-    messagingSenderId: "375886659320",
-    appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
-  };
+    body {
+      background-color: #f1f3f6;
+      min-height: 100vh;
+    }
 
-  firebase.initializeApp(firebaseConfig);
-</script>
+    .navbar {
+      background-color: #2874f0;
+      padding: 15px;
+      text-align: center;
+      color: white;
+      font-size: 22px;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .welcome {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .points-box {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 30px;
+      padding: 15px;
+      background-color: #f8f8f8;
+      border-radius: 10px;
+      color: #2874f0;
+      font-weight: bold;
+      border: 1px solid #ddd;
+    }
+
+    .actions {
+      display: flex;
+      gap: 15px;
+      flex-direction: column;
+    }
+
+    .btn {
+      padding: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-withdraw {
+      background-color: #ff7043;
+      color: white;
+    }
+
+    .btn-deposit {
+      background-color: #00c853;
+      color: white;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    @media (min-width: 500px) {
+      .actions {
+        flex-direction: row;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="dashboard-container">
-    <header>
-      <h1>Welcome, <span id="username">Player</span> 👑</h1>
-      <button class="logout-btn">Logout</button>
-    </header>
 
-    <section class="stark-points">
-      <h2>STARK POINTS: <span id="starkPoints">0</span></h2>
-      <div class="actions">
-        <button class="deposit-btn" disabled>Deposit (Coming Soon)</button>
-        <button class="withdraw-btn">Withdraw</button>
-      </div>
-    </section>
-
-    <section class="tournaments">
-      <h2>Available Tournaments</h2>
-      <div class="tournament-card">
-        <h3>BGMI Solo TDM</h3>
-        <p>Match ID: #TDM783</p>
-        <p>Entry Fee: 10 Stark Points</p>
-        <p>Winning: 50 Stark Points</p>
-        <button class="join-btn">Join Now</button>
-      </div>
-      <!-- More tournament cards can be added here -->
-    </section>
+  <div class="navbar">
+    StarkPlay Dashboard
   </div>
-</body>
-</html>
+
+  <div class="container">
+    <div class="welcome">Welcome to StarkPlay!</div>
+
+    <div class="points-box" id="starkPoints">
+      Loading Stark Points...
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-withdraw" onclick="goToWithdraw()">Withdraw</button>
+      <button class="btn btn

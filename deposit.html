@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Deposit - StarkPlay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00ffb3;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .deposit-container {
+      max-width: 400px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 25px 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-size: 15px;
+      color: #ccc;
+    }
+
+    .amount-options {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .amount-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #00ffb3;
+      border: 1px solid #00ffb3;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      flex: 1;
+      text-align: center;
+      transition: 0.3s ease;
+    }
+
+    .amount-btn:hover {
+      background-color: #00ffb3;
+      color: #000;
+    }
+
+    .amount-btn.selected {
+      background-color: #00ffb3;
+      color: #000;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid #00ffb3;
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #00ffb3;
+      font-size: 16px;
+    }
+
+    input[type="number"]::placeholder {
+      color: #aaa;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #00ffb3;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0, 255, 179, 0.3);
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00e6a5;
+    }
+
+    .deposit-info {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #ffffff;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="deposit-container">
+    <h1>Deposit Funds</h1>
+
+    <label>Select Amount:</label>
+    <div class="amount-options">
+      <button class="amount-btn" onclick="selectAmount(event, 10)">₹10</button>
+      <button class="amount-btn" onclick="selectAmount(event, 30)">₹30</button>
+      <button class="amount-btn" onclick="selectAmount(event, 100)">₹100</button>
+      <button class="amount-btn" onclick="selectAmount(event, 500)">₹500</button>
+    </div>
+
+    <label>Or Enter Custom Amount:</label>
+    <input type="number" id="amountInput" placeholder="Enter amount">
+
+    <div class="deposit-info" id="depositDisplay">Selected Amount: ₹0</div>
+
+    <button onclick="submitDeposit()">Deposit Now</button>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+  <script>
+    // ✅ Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
+      authDomain: "stark-play-with-champ.firebaseapp.com",
+      projectId: "stark-play-with-champ",
+      storageBucket: "stark-play-with-champ.appspot.com",
+      messagingSenderId: "375886659320",
+      appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function selectAmount(event, amount) {
+      document.querySelectorAll('.amount-btn').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      event.target.classList.add('selected');
+      document.getElementById('amountInput').value = amount;
+      document.getElementById('depositDisplay').innerText = Selected Amount: ₹${amount};
+    }
+
+    function submitDeposit() {
+      const amount = document.getElementById('amountInput').value.trim();
+
+      if (!amount || isNaN(amount) || amount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+      }
+
+      const userId = localStorage.getItem("username") || "guest";
+
+      db.collection("deposit_requests").add({
+        amount: parseFloat(amount),
+        user: userId,
+        timestamp: new Date()
+      })
+      .then(() => {
+        alert("Deposit request saved! Redirecting to UPI...");
+        const upiLink = upi://pay?pa=starkplaytournament@okhdfcbank&am=${amount}&cu=INR;
+        window.location.href = upiLink;
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("Error! Try again.");
+      });
+    }
+  </script>
+
+</body>
+</html>
