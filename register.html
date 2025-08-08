@@ -1,163 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Register • STARK PLAY</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Orbitron', sans-serif;
-      background: url('bg.jpg') no-repeat center center fixed;
-      background-size: cover;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: rgb(214, 204, 204);
-      position: relative;
-    }
-    .register-box {
-      background: rgba(228, 221, 221, 0.05);
-      padding: 40px 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 25px #b8a40c;
-      border: 2px solid #f2f2ef;
-      backdrop-filter: blur(12px);
-      width: 350px;
-      text-align: center;
-      z-index: 1;
-    }
-    .register-box h2 {
-      margin-bottom: 20px;
-      font-size: 24px;
-      text-shadow: 0 0 5px #080800;
-    }
-    .register-box input {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      background: #1c1c1c;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 14px;
-      outline: none;
-    }
-    .register-box input:focus {
-      box-shadow: 0 0 8px #bfc234;
-    }
-    .register-box button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #f8f8f3;
-      color: black;
-      font-weight: bold;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .register-box p {
-      margin-top: 16px;
-      font-size: 13px;
-    }
-    .register-box a {
-      color: #1b1c01;
-      text-decoration: underline;
-    }
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      backdrop-filter: blur(8px);
-      background: rgba(3, 0, 0, 0.5);
-      z-index: 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - NOW STARK PLAY WITH CHAMP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('pubg image1.jpg') no-repeat center center/cover;
+            margin: 0;
+            padding: 0;
+        }
+        .register-container {
+            background: rgba(0, 0, 0, 0.8);
+            width: 350px;
+            margin: 60px auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px #ff9800;
+            color: #fff;
+        }
+        .register-container h2 {
+            text-align: center;
+            color: #ff9800;
+            margin-bottom: 20px;
+        }
+        .register-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+        .register-container input[type="submit"] {
+            background: #ff9800;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .register-container input[type="submit"]:hover {
+            background: #e68900;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .login-link a {
+            color: #ff9800;
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <div class="overlay"></div>
-  <div class="register-box">
-    <h2>REGISTER</h2>
-    <form id="registerForm">
-      <input type="text" id="name" placeholder="Full Name (Aadhar Name)" required />
-      <input type="tel" id="mobile" placeholder="Mobile Number" maxlength="10" pattern="[0-9]{10}" title="Enter 10 digit mobile number" required />
-      <input type="text" id="bgmiId" placeholder="BGMI ID" required />
-      <input type="email" id="email" placeholder="Email Address" required />
-      <input type="password" id="password" placeholder="Create Password" minlength="6" required />
-      <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
-      <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="login.html">Login here</a></p>
-  </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <div class="register-container">
+        <h2>Create Account</h2>
+        <form id="registerForm">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="text" id="mobile" placeholder="Mobile Number" required>
+            <input type="text" id="bgmiUID" placeholder="BGMI UID" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            <input type="submit" value="Register">
+        </form>
+        <div class="login-link">
+            Already have an account? <a href="login.html">Login here</a>
+        </div>
+    </div>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
-      authDomain: "stark-play-with-champ.firebaseapp.com",
-      projectId: "stark-play-with-champ",
-      storageBucket: "stark-play-with-champ.appspot.com",
-      messagingSenderId: "375886659320",
-      appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d",
-      databaseURL: "https://stark-play-with-champ-default-rtdb.firebaseio.com/"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.database();
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    document.getElementById('registerForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+        // Tumhara Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4"
+            authDomain: "https://stark-play-with-champ.firebaseapp.com"
 
-      const name = document.getElementById('name').value.trim();
-      const mobile = document.getElementById('mobile').value.trim();
-      const bgmiId = document.getElementById('bgmiId').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
+            ",
+            projectId: "stark-play-with-champ",
+            storageBucket: "https://stark-play-with-champ.firebasestronge.app",
+            messagingSenderId: "375886659320",
+            appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
+        };
 
-      if (password !== confirmPassword) {
-        alert("❌ Passwords do not match.");
-        document.getElementById('confirmPassword').value = "";
-        return;
-      }
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-      try {
-        // Create user in Firebase Auth
-        const userCred = await auth.createUserWithEmailAndPassword(email, password);
-        const uid = userCred.user.uid;
+        document.getElementById("registerForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-        // Save user details in Realtime Database
-        await db.ref('users/' + uid).set({
-          name: name,
-          mobile: mobile,
-          bgmiId: bgmiId,
-          email: email
+            const name = document.getElementById("name").value.trim();
+            const mobile = document.getElementById("mobile").value.trim();
+            const bgmiUID = document.getElementById("bgmiUID").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                await updateProfile(user, { displayName: name });
+
+                await setDoc(doc(db, "users", user.uid), {
+                    name: name,
+                    mobile: mobile,
+                    bgmiUID: bgmiUID,
+                    email: email,
+                    createdAt: new Date()
+                });
+
+                await sendEmailVerification(user);
+                alert("Registration successful! Please check your email for verification.");
+                window.location.href = "login.html";
+
+            } catch (error) {
+                alert(error.message);
+            }
         });
+    </script>
 
-        localStorage.setItem("username", name);
-        alert("✅ Registration successful!");
-        window.location.href = "index.html";
-      } catch (error) {
-        alert("❌ Error: " + error.message);
-
-        // If database save failed after creating Auth user, delete the user
-        if (auth.currentUser) {
-          await auth.currentUser.delete().catch(() => {});
-        }
-      }
-    });
-  </script>
 </body>
 </html>
