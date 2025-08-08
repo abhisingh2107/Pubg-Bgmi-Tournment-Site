@@ -4,10 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Register • STARK PLAY</title>
-
-  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
-
   <style>
     body {
       margin: 0;
@@ -22,7 +19,6 @@
       color: rgb(214, 204, 204);
       position: relative;
     }
-
     .register-box {
       background: rgba(228, 221, 221, 0.05);
       padding: 40px 30px;
@@ -34,13 +30,11 @@
       text-align: center;
       z-index: 1;
     }
-
     .register-box h2 {
       margin-bottom: 20px;
       font-size: 24px;
       text-shadow: 0 0 5px #080800;
     }
-
     .register-box input {
       width: 100%;
       padding: 12px;
@@ -52,11 +46,9 @@
       font-size: 14px;
       outline: none;
     }
-
     .register-box input:focus {
       box-shadow: 0 0 8px #bfc234;
     }
-
     .register-box button {
       width: 100%;
       padding: 12px;
@@ -69,18 +61,14 @@
       font-size: 14px;
       cursor: pointer;
     }
-
     .register-box p {
       margin-top: 16px;
       font-size: 13px;
     }
-
     .register-box a {
       color: #1b1c01;
       text-decoration: underline;
     }
-
-    /* Background Overlay for Blur */
     .overlay {
       position: absolute;
       top: 0;
@@ -95,10 +83,8 @@
 </head>
 <body>
   <div class="overlay"></div>
-
   <div class="register-box">
     <h2>REGISTER</h2>
-
     <form id="registerForm">
       <input type="text" id="name" placeholder="Full Name (Aadhar Name)" required />
       <input type="tel" id="mobile" placeholder="Mobile Number" maxlength="10" required />
@@ -108,16 +94,13 @@
       <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
       <button type="submit">Register</button>
     </form>
-
     <p>Already have an account? <a href="login.html">Login here</a></p>
   </div>
-
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
+  <!-- Firebase SDK (compat version for easier usage) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
       authDomain: "stark-play-with-champ.firebaseapp.com",
@@ -127,45 +110,40 @@
       appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d",
       databaseURL: "https://stark-play-with-champ-default-rtdb.firebaseio.com/"
     };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getDatabase(app);
-
-    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
       e.preventDefault();
-
       const name = document.getElementById('name').value.trim();
       const mobile = document.getElementById('mobile').value.trim();
       const bgmiId = document.getElementById('bgmiId').value.trim();
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
-
       if (password !== confirmPassword) {
         alert("❌ Passwords do not match.");
         return;
       }
-
-      try {
-        const userCred = await createUserWithEmailAndPassword(auth, email, password);
-        const uid = userCred.user.uid;
-
-        // Save additional data to Realtime DB
-        await set(ref(db, 'users/' + uid), {
-          name: name,
-          mobile: mobile,
-          bgmiId: bgmiId,
-          email: email
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCred) => {
+          const uid = userCred.user.uid;
+          db.ref('users/' + uid).set({
+            name: name,
+            mobile: mobile,
+            bgmiId: bgmiId,
+            email: email
+          }).then(() => {
+            localStorage.setItem("username", name);
+            alert("✅ Registration successful!");
+            window.location.href = "index.html";
+          }).catch((error) => {
+            alert("❌ Error saving user data: " + error.message);
+          });
+        })
+        .catch((error) => {
+          alert("❌ Error: " + error.message);
         });
-
-        localStorage.setItem("username", name);
-        alert("✅ Registration successful!");
-        window.location.href = "index.html";
-      } catch (error) {
-        alert("❌ Error: " + error.message);
-        console.error(error);
-      }
     });
   </script>
 </body>
