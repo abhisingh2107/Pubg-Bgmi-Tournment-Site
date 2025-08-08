@@ -7,133 +7,123 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: url('pubg image1.jpg') no-repeat center center/cover;
-            margin: 0;
-            padding: 0;
+            background: url('https://wallpaperaccess.com/full/1322870.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .register-container {
-            background: rgba(0, 0, 0, 0.8);
-            width: 350px;
-            margin: 60px auto;
+            background: rgba(0,0,0,0.7);
             padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 0 15px #ff9800;
-            color: #fff;
+            border-radius: 10px;
+            width: 320px;
+            color: white;
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
         }
         .register-container h2 {
             text-align: center;
-            color: #ff9800;
             margin-bottom: 20px;
         }
-        .register-container input {
+        input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 8px 0;
-            border-radius: 6px;
+            border-radius: 5px;
             border: none;
             outline: none;
-            font-size: 14px;
         }
-        .register-container input[type="submit"] {
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
             background: #ff9800;
             color: white;
             font-size: 16px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: 0.3s;
         }
-        .register-container input[type="submit"]:hover {
+        button:hover {
             background: #e68900;
         }
-        .login-link {
+        p {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 10px;
         }
-        .login-link a {
+        a {
             color: #ff9800;
-            text-decoration: none;
-        }
-        .login-link a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
     <div class="register-container">
-        <h2>Create Account</h2>
-        <form id="registerForm">
-            <input type="text" id="name" placeholder="Full Name" required>
-            <input type="text" id="mobile" placeholder="Mobile Number" required>
-            <input type="text" id="bgmiUID" placeholder="BGMI UID" required>
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-            <input type="submit" value="Register">
-        </form>
-        <div class="login-link">
-            Already have an account? <a href="login.html">Login here</a>
-        </div>
+        <h2>Register</h2>
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="text" id="bgmiUid" placeholder="BGMI UID" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="register()">Register</button>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+        <p id="message" style="color: red;"></p>
     </div>
 
-    <!-- Firebase Scripts -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
-        // Tumhara Firebase Config
+    <script>
+        // Firebase Config
         const firebaseConfig = {
-            apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4"
-            authDomain: "https://stark-play-with-champ.firebaseapp.com"
-
-            ",
+            apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
+            authDomain: "stark-play-with-champ.firebaseapp.com",
             projectId: "stark-play-with-champ",
-            storageBucket: "https://stark-play-with-champ.firebasestronge.app",
+            storageBucket: "stark-play-with-champ.appspot.com",
             messagingSenderId: "375886659320",
             appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.getAuth(app);
+        const db = firebase.getFirestore(app);
 
-        document.getElementById("registerForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-
+        async function register() {
             const name = document.getElementById("name").value.trim();
-            const mobile = document.getElementById("mobile").value.trim();
-            const bgmiUID = document.getElementById("bgmiUID").value.trim();
+            const bgmiUid = document.getElementById("bgmiUid").value.trim();
             const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirmPassword").value;
+            const password = document.getElementById("password").value.trim();
+            const msg = document.getElementById("message");
 
-            if (password !== confirmPassword) {
-                alert("Passwords do not match!");
+            if (!name || !bgmiUid || !email || !password) {
+                msg.textContent = "Please fill all fields!";
                 return;
             }
 
             try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const userCredential = await firebase.createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
-                await updateProfile(user, { displayName: name });
-
-                await setDoc(doc(db, "users", user.uid), {
+                await firebase.setDoc(firebase.doc(db, "users", user.uid), {
                     name: name,
-                    mobile: mobile,
-                    bgmiUID: bgmiUID,
+                    bgmiUid: bgmiUid,
                     email: email,
                     createdAt: new Date()
                 });
 
-                await sendEmailVerification(user);
-                alert("Registration successful! Please check your email for verification.");
-                window.location.href = "login.html";
+                msg.style.color = "lightgreen";
+                msg.textContent = "Registration successful! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 2000);
 
             } catch (error) {
-                alert(error.message);
+                msg.textContent = error.message;
             }
-        });
+        }
     </script>
 
 </body>
