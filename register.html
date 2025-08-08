@@ -1,130 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - NOW STARK PLAY WITH CHAMP</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: url('https://wallpaperaccess.com/full/1322870.jpg') no-repeat center center fixed;
-            background-size: cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .register-container {
-            background: rgba(0,0,0,0.7);
-            padding: 25px;
-            border-radius: 10px;
-            width: 320px;
-            color: white;
-            box-shadow: 0 0 15px rgba(255,255,255,0.3);
-        }
-        .register-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 5px;
-            border: none;
-            outline: none;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            border: none;
-            background: #ff9800;
-            color: white;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #e68900;
-        }
-        p {
-            text-align: center;
-            margin-top: 10px;
-        }
-        a {
-            color: #ff9800;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - NOW STARK PLAY WITH CHAMP</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('bgmi-bg.jpg') no-repeat center center/cover;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 350px;
+      background: rgba(0, 0, 0, 0.8);
+      margin: 80px auto;
+      padding: 20px;
+      border-radius: 10px;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: gold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px;
+    }
+    input[type="text"], input[type="email"], input[type="password"] {
+      background: #333;
+      color: #fff;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: gold;
+      border: none;
+      border-radius: 5px;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: orange;
+    }
+    p {
+      text-align: center;
+      margin-top: 10px;
+    }
+    a {
+      color: lightblue;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h2>Register</h2>
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="text" id="bgmiUid" placeholder="BGMI UID" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button id="registerBtn">Register</button>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </div>
 
-    <div class="register-container">
-        <h2>Register</h2>
-        <input type="text" id="name" placeholder="Full Name" required>
-        <input type="text" id="bgmiUid" placeholder="BGMI UID" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button onclick="register()">Register</button>
-        <p>Already have an account? <a href="login.html">Login</a></p>
-        <p id="message" style="color: red;"></p>
-    </div>
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
+      authDomain: "stark-play-with-champ.firebaseapp.com",
+      projectId: "stark-play-with-champ",
+      storageBucket: "stark-play-with-champ.appspot.com",
+      messagingSenderId: "375886659320",
+      appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
+    };
 
-    <script>
-        // Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyBcU7bSc8hSHOckxjk2Ok8McUf7PZ_2H_4",
-            authDomain: "stark-play-with-champ.firebaseapp.com",
-            projectId: "stark-play-with-champ",
-            storageBucket: "stark-play-with-champ.appspot.com",
-            messagingSenderId: "375886659320",
-            appId: "1:375886659320:web:0bac0b424a7c9ef24ac50d"
-        };
+    // Init Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.getAuth(app);
-        const db = firebase.getFirestore(app);
+    document.getElementById("registerBtn").addEventListener("click", async () => {
+      const name = document.getElementById("name").value.trim();
+      const bgmiUid = document.getElementById("bgmiUid").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
 
-        async function register() {
-            const name = document.getElementById("name").value.trim();
-            const bgmiUid = document.getElementById("bgmiUid").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const msg = document.getElementById("message");
+      if (!name || !bgmiUid || !email || !password) {
+        alert("Please fill all fields");
+        return;
+      }
 
-            if (!name || !bgmiUid || !email || !password) {
-                msg.textContent = "Please fill all fields!";
-                return;
-            }
+      try {
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCred.user;
 
-            try {
-                const userCredential = await firebase.createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
+        // Save extra data in Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          name: name,
+          bgmiUid: bgmiUid,
+          email: email,
+          points: 0
+        });
 
-                await firebase.setDoc(firebase.doc(db, "users", user.uid), {
-                    name: name,
-                    bgmiUid: bgmiUid,
-                    email: email,
-                    createdAt: new Date()
-                });
-
-                msg.style.color = "lightgreen";
-                msg.textContent = "Registration successful! Redirecting...";
-                setTimeout(() => {
-                    window.location.href = "login.html";
-                }, 2000);
-
-            } catch (error) {
-                msg.textContent = error.message;
-            }
-        }
-    </script>
-
+        alert("Registration successful! Redirecting to login...");
+        window.location.href = "login.html";
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+  </script>
 </body>
 </html>
